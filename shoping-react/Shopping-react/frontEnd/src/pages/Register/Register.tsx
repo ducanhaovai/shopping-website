@@ -2,13 +2,16 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import Input from "../../components/Input";
-import { schema } from "../../utils/rule";
+import { schema, Schema } from "../../utils/rule";
 import { yupResolver } from "@hookform/resolvers/yup";
+
 interface FormData {
   email: string;
   password: string;
   confirm_password: string;
 }
+
+const registerSchema = schema.pick(["email", "password", "confirm_password"]);
 
 export default function Register() {
   const {
@@ -17,7 +20,7 @@ export default function Register() {
     getValues,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
   });
 
   const onSubmit = handleSubmit(
@@ -29,6 +32,7 @@ export default function Register() {
       console.log(password);
     }
   );
+
   console.log("error", errors);
   return (
     <div className="bg-orange">
